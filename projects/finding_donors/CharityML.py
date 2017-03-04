@@ -165,33 +165,25 @@ def train_predict(learner, sample_size, X_train, y_train, X_test, y_test):
     return results
 
 
-# TODO: Import the three supervised learning models from sklearn
-from sklearn.svm import SVC
+# Import the three supervised learning models from sklearn
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
 
+# Initialize the three models
+clf_A = GaussianNB()
+clf_B = DecisionTreeClassifier(criterion="entropy",random_state=0)
+clf_C = SVC(random_state=0)
 
-# TODO: Initialize the three models
-clf_A = SVC(random_state=0)
-clf_B = GaussianNB()
-clf_C = DecisionTreeClassifier(criterion="entropy",random_state=0)
+# Calculate the number of samples for 1%, 10%, and 100% of the training data
+#Defining function since percent is required 3 times
+def sample_size(percent):
+    return int((float(percent)/100)*X_train.shape[0])
 
-# TODO: Calculate the number of samples for 1%, 10%, and 100% of the training data
+samples_1 = sample_size(1.0)
+samples_10 = sample_size(10.0)
+samples_100 = sample_size(100.0)
 
-percent_1=(float(1)/100)
-percent_10=(float(10)/100)
-percent_100=(float(100)/100)
-
-samples_1=int((float(percent_1)/100)*X_train.shape[0])
-samples_10=int((float(percent_10)/100)*X_train.shape[0])
-samples_100=int((float(percent_100)/100)*X_train.shape[0])
-
-samples_1 = one
-samples_10 = ten
-samples_100 = hundred
-print(samples_1)
-print(samples_10)
-print(samples_100)
 # Collect results on the learners
 results = {}
 for clf in [clf_A, clf_B, clf_C]:
@@ -203,7 +195,6 @@ for clf in [clf_A, clf_B, clf_C]:
 
 # Run metrics visualization for the three supervised learning models chosen
 vs.evaluate(results, accuracy, fscore)
-
 
 #--TEST CODE------------------
 # Import the three supervised learning models from sklearn
@@ -235,3 +226,61 @@ for clf in [clf_A, clf_B, clf_C]:
 
 # Run metrics visualization for the three supervised learning models chosen
 vs.evaluate(results, accuracy, fscore)
+
+
+import numpy as np
+from scipy.spatial import distance
+print(features.columns)
+print distance.correlation(features.age, income)
+print distance.correlation(features['capital-gain'], income)
+print distance.correlation(features['capital-loss'], income)
+print distance.correlation(features['education-num'], income)
+print distance.correlation(features['hours-per-week'], income)
+print distance.correlation(features.age, features['capital-gain'])
+print distance.correlation(features.age, features['capital-loss'])
+print distance.correlation(features.age, features['education-num'])
+print distance.correlation(features.age, features['hours-per-week'])
+
+############DOING THE GRID SEARCH CROSS VALIDATION############################
+from sklearn.metrics import make_scorer
+from sklearn.grid_search import GridSearchCV
+from IPython.display import display
+import pickle, os.path
+
+# TODO: Initialize the classifier
+clf = SVC(random_state=0)
+
+# TODO: Create the parameters list you wish to tune
+parameters = {'C':range(1,5),'kernel':['linear','poly','rbf','sigmoid'],'gamma':range(1,10)}
+
+# TODO: Make an fbeta_score scoring object
+beta=0.5
+score=fbeta_score(y_test, y_pred, beta)
+scorer = make_scorer(score)
+
+# TODO: Perform grid search on the classifier using 'scorer' as the scoring method
+grid_obj = GridSearchCV(clf, parameters, scoring=scorer)
+
+# TODO: Fit the grid search object to the training data and find the optimal parameters
+grid_fit = grid_obj.fit(X_train, y_train)
+
+# Get the estimator
+best_clf = grid_fit.best_estimator_
+
+# Make predictions using the unoptimized and model
+predictions = (clf.fit(X_train, y_train)).predict(X_test)
+best_predictions = best_clf.predict(X_test)
+
+# Report the before-and-afterscores
+print "Unoptimized model\n------"
+print "Accuracy score on testing data: {:.4f}".format(accuracy_score(y_test, predictions))
+print "F-score on testing data: {:.4f}".format(fbeta_score(y_test, predictions, beta = 0.5))
+print "\nOptimized Model\n------"
+print "Final accuracy score on the testing data: {:.4f}".format(accuracy_score(y_test, best_predictions))
+print "Final F-score on the testing data: {:.4f}".format(fbeta_score(y_test, best_predictions, beta = 0.5))
+
+
+
+
+
+
