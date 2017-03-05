@@ -286,6 +286,7 @@ from sklearn.metrics import make_scorer
 from sklearn.grid_search import GridSearchCV
 from IPython.display import display
 import pickle, os.path
+from sklearn.svm import SVC
 
 def getscore(y_true, y_predict):
     return fbeta_score(y_true, y_predict, beta)
