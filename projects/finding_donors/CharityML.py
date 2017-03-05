@@ -280,7 +280,59 @@ print "Final accuracy score on the testing data: {:.4f}".format(accuracy_score(y
 print "Final F-score on the testing data: {:.4f}".format(fbeta_score(y_test, best_predictions, beta = 0.5))
 
 
+#################trying
+# Import 'GridSearchCV', 'make_scorer', and any other necessary libraries
+from sklearn.metrics import make_scorer
+from sklearn.grid_search import GridSearchCV
+from IPython.display import display
+import pickle, os.path
 
+def getscore(y_true, y_predict):
+    return fbeta_score(y_true, y_predict, beta)
+
+best_clf = None
+
+
+#Note to self: Do not proceed if the below Grid Search Parameter is not enabled, it fails
+#Enabling Grid Search
+GRID_SEARCH_ENABLED = True
+
+#Initialize the classifier
+#Note to Reviewer: If you want to run the code optimally then use max_iter=-1
+#My code ran Ran Overnight so limited to max_iter=1 to limit calculation time
+clf = SVC(random_state=0, max_iter=1)
+
+# Create the parameters list you wish to tune
+parameters = {'C':range(1,100),'kernel':['linear','poly','rbf','sigmoid'],'degree':range(1,6)}
+
+# Make an fbeta_score scoring object
+scorer = make_scorer(getscore)
+
+# Perform grid search on the classifier using 'scorer' as the scoring method
+grid_obj = GridSearchCV(clf, parameters, scoring=scorer)
+
+    # Fit the grid search object to the training data and find the optimal parameters   
+grid_fit = grid_obj.fit(X_train, y_train)
+
+    # Get the estimator
+best_clf = grid_fit.best_estimator_
+
+# Make predictions using the unoptimized and model
+predictions = (clf.fit(X_train, y_train)).predict(X_test)
+best_predictions = best_clf.predict(X_test)
+
+# Report the before-and-afterscores
+print "Unoptimized model\n------"
+print "Accuracy score on testing data: {:.4f}".format(accuracy_score(y_test, predictions))
+print "F-score on testing data: {:.4f}".format(fbeta_score(y_test, predictions, beta = 0.5))
+print "\nOptimized Model\n------"
+print "Final accuracy score on the testing data: {:.4f}".format(accuracy_score(y_test, best_predictions))
+print "Final F-score on the testing data: {:.4f}".format(fbeta_score(y_test, best_predictions, beta = 0.5))
+
+# Print the final parameters
+df = pd.DataFrame(grid_fit.grid_scores_).sort_values('mean_validation_score').tail()
+display(df)
+print "Parameters for the optimal model: {}".format(clf.get_params())
 
 
 
