@@ -177,12 +177,12 @@ clf_C = SVC(random_state=0)
 
 # Calculate the number of samples for 1%, 10%, and 100% of the training data
 #Defining function since percent is required 3 times
-def sample_size(percent):
+def getsample(percent):
     return int((float(percent)/100)*X_train.shape[0])
 
-samples_1 = sample_size(1.0)
-samples_10 = sample_size(10.0)
-samples_100 = sample_size(100.0)
+samples_1 = getsample(1.0)
+samples_10 = getsample(10.0)
+samples_100 = getsample(100.0)
 
 # Collect results on the learners
 results = {}
@@ -240,6 +240,13 @@ print distance.correlation(features.age, features['capital-gain'])
 print distance.correlation(features.age, features['capital-loss'])
 print distance.correlation(features.age, features['education-num'])
 print distance.correlation(features.age, features['hours-per-week'])
+
+from scipy.stats.stats import pearsonr
+features=pd.DataFrame(features)
+pearsonr(features.age, income)
+pearsonr(features['capital-gain'], income)
+pearsonr(features['education-num'], income)
+pearsonr(features['hours-per-week'], income)
 
 ############DOING THE GRID SEARCH CROSS VALIDATION############################
 from sklearn.metrics import make_scorer
@@ -334,6 +341,51 @@ print "Final F-score on the testing data: {:.4f}".format(fbeta_score(y_test, bes
 df = pd.DataFrame(grid_fit.grid_scores_).sort_values('mean_validation_score').tail()
 display(df)
 print "Parameters for the optimal model: {}".format(clf.get_params())
+
+
+print(data.drop(['income'], axis=1).dtypes)
+
+
+
+##########-----------------------TESTING#####################################
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.feature_selection import SelectFromModel
+
+eclf = ExtraTreesClassifier()
+eclf = eclf.fit(X_train, y_train)
+fi=eclf.feature_importances_
+
+print(len(fi))
+x=0
+together=pd.DataFrame()
+together['features']=0
+ft=np.array(features.columns)
+for x in range(0,103):
+    print(ft[x],fi[x])
+    together['features'][x]=ft[x]
+    together['importance'][x]=fi[x]
+
+print(together.shape)
+print(together)
+    
+import matplotlib.pyplot as plt
+plt.plot(fi) #Better
+plt.hist(fi)
+# plot
+plt.bar(range(len(eclf.feature_importances_)), eclf.feature_importances_)
+plt.show()
+print(features)
+features=pd.DataFrame(features)
+importances = eclf.feature_importances_
+indices= np.argsort(importances)[::-1]
+eclf.n_features_
+
+for i in range(0,103):
+    print(features[i],importances[indices[i]])
+
+print(features,fi)
+print(features)
+features.columns
 
 
 
