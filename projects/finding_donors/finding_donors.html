@@ -14057,23 +14057,25 @@ This model is best suited for these kind of predictions as we want answer to the
 <ol>
 <li>Robustness of results- As SVM algorithm which is the fundamental base of this model aims for robustness of results.</li>
 <li>Classification and prediction of likely people earning more than 50K.</li>
-<li>Anything that is an extreme value in our dataset such as income levels exceeding a certain limit is ignored or tolerated by this model.</li>
+<li>Anything that is an extreme value in our dataset such as income levels exceeding a certain limit is either ignored or tolerated by this model.</li>
 <li>This model has been optimized using the most robust and extensive search algorithm to tune for the best prediction results.</li>
 <li>The Accuracy score for this optimized model is around 0.8 found on Testing. This does not mean we are likely to see at least this accuracy score in production. It may vary based on the actual data.</li>
 </ol>
 <p>Working of the model:</p>
 <p>The model is trained by splitting the entire sample dataset given into training and testing data in a ratio of 80% to 20%. 
 The training set is used to learn about the data and create a profile of the initial data. After this various algorithms like Naive Bayes, Decision Trees and SVM are used to learn the model. Their accuracies are then compared on the Test dataset and each algorithm's ability to predict and the error level is also compared using appropriate Statistical tests. This is also verified visually using graphs.
-We select an algorithm which we feel would be the benchmark predictor to ascertain if we have improved or not in our predictions.
+We select an algorithm which we feel would be the benchmark predictor to ascertain if we have improved or not in our predictions later.
 After we zero in on the best algorithm that has a high accuracy score and has a better statistical test result, the algorithm is tuned by using search techniques appropriate for the selected algorithm.</p>
 <p>Now we are good to make a comparision of the prediction between the Benchmark predictor, the unoptimized model and the optimized model. We compare the accuracy score and statistical test score between them to see if we can pick up this new model. If the results show that the new model is better than the benchmark then we select the new model otherwise we select the benchmark predictor.</p>
-<p>Here we could also look at other algorithms if the benchmark predictor has accuracy score which is not acceptable to the Business. Like for example the benchmark predictor is giving accuracy of 55% whereas the Business at CharityML require at least 60% accuracy score then we would reject the benchmark and look for other algorithms for the model building. The above steps are repeated till we get the best model which needs the business needs of CharityML.</p>
+<p>Here we could also look at other algorithms if the benchmark predictor has accuracy score which is not acceptable to the Business. Like for example the benchmark predictor is giving accuracy of 55% whereas the Business at CharityML require at least 60% accuracy score then we would reject the benchmark and look for other algorithms for the model building. The above steps are repeated till we get the best model which fulfills the business needs of CharityML.</p>
 <p>After the model is tuned and evaluated the model needs to have appropriate features such as Age, Capital gain etc. to select the ones that would truly contribute towards increasing its accuracy. Certain tests are used to determine which features are relevant for the model accuracy and then used to create the model.</p>
 <p>Finally we run our model on test data to determine if the model has improved based on selecting the optimum features or not. If it has not then we use full feature set otherwise the reduced feature set.</p>
 <p>This entire process is step by step and very scientific in its approach for making the prediction very robust and measurable.</p>
 <p>The algorithm used for your model is Support Vector Machines which increases Robustness of results by maximizing the gap between lines shown in the graph below:</p>
 <p><img src="SVM.PNG"></p>
-<p>Although the algorithm is very complex but simply put it actually tries to divide the data into two parts in our case dataset with income levels &lt;=50K and dataset with income levels &gt;= 50K as shown in the example graph above and then it tries to optimize the gap or margin between this division. The complexity can be ascertained by the fact that it can do this with more than 2 Dimension and do it with all the features such as Age, Capital Gain etc. which we choose in our model and then create an optimum solution for us.</p>
+<p>Although the algorithm is very complex but simply put it actually tries to divide the data into two parts in our case dataset with income levels &lt;=50K and dataset with income levels &gt;= 50K as shown in the example graph above and then it tries to optimize the gap or margin between this division. The complexity can be ascertained by the fact that it can do this with more than 2 Dimensions and do it with all the features such as Age, Capital Gain etc. which we choose in our model and then create an optimum solution for us.</p>
+<p>The entire process can be viewed in the Process Diagram below:</p>
+<p><img src="MODEL.PNG"></p>
 
 </div>
 </div>
