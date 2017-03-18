@@ -11995,7 +11995,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Select three indices of your choice you wish to sample from the dataset</span>
@@ -13145,7 +13145,7 @@ rAAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Importing Libraries</span>
@@ -13215,9 +13215,9 @@ The R2 score for feature Delicatessen     is -1.81857
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>Attempt to predict and see all the features and checking all their R2 scores. We see that the features Fresh, Frozen and Delicatessen have negative R2 score. This makes then unfit for our model as they do not fit the data.</p>
-<p>The features Milk, Grocery and Detergents Paper have positive R2 score. Highest positive score is that of Detergents Paper at +0.79858. These features are absolute must for identifying customers spending habits.
-The Lowest negative score is that of Frozen at -2.08682.</p>
+<p>Attempt to predict and see all the features and checking all their R2 scores. We see that the features Fresh, Frozen and Delicatessen have negative R2 score.
+A High R^2 score of +76524 for Grocery shows there is a some kind of relationship between the other features with this feature,  information it delivers seems to be contained to a large extend in the other features. so would drop it as redundant.</p>
+<p>The features which have a negative R^2 are: Frozen at -2.08, Delicatessen at -1.81 and Fresh at -0.33. Recommend to keep these features since they are not showing a relationship with other features and hence are independant to identify the customer's specific behavior from them alone.</p>
 
 </div>
 </div>
