@@ -23,22 +23,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
-        self.reward = 0
-        self.next_waypoint = None
-        self.actions = [None, 'forward', 'left', 'right']
-        self.q = {}
-        self.alpha = -1
-        self.gamma = -1
-        self.epsilon = 0.01
-        self.lastState = None
-        self.lastAction = None
-        self.run_mode = None
-        self.enforce_deadline = True
-        self.trial_num = 5
-        self.report_stats = [] # collect data for visualization and reporting
-        self.t = 1 
-        self.epsilon = 0.5   
-        
+
 
     def reset(self, destination=None, testing=False):
         """ The reset function is called at the beginning of each trial.
@@ -118,20 +103,6 @@ class LearningAgent(Agent):
         # When not learning, choose a random action
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state
-        
-        if random.random() < self.epsilon:
-            action = random.choice(self.actions)
-        else:
-            q = [self.get_maxQ(state) for a in self.actions]
-            maxQ = max(q)
-            count = q.count(maxQ)
-            if count > 1:
-                best = [i for i in range(len(self.actions)) if q[i] == maxQ]
-                i = random.choice(best)
-            else:
-                i = q.index(maxQ)
-
-            action = self.actions[i]
  
         return action
 
@@ -193,12 +164,10 @@ def run():
     ##############
     # Create the simulation
     # Flags:
-    update_delay=0.01   # - continuous time (in seconds) between actions, default is 2.0 seconds
-    display=True      #- set to False to disable the GUI if PyGame is enabled
-    log_metrics=True  #- set to True to log trial and simulation results to /logs
-    optimized=True    #- set to True to change the default log file name
-    n_test=10
-    
+    #   update_delay - continuous time (in seconds) between actions, default is 2.0 seconds
+    #   display      - set to False to disable the GUI if PyGame is enabled
+    #   log_metrics  - set to True to log trial and simulation results to /logs
+    #   optimized    - set to True to change the default log file name
     sim = Simulator(env)
     
     ##############
