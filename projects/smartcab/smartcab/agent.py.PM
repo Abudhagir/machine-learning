@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5):
+    def __init__(self, env, learning=True, epsilon=1.0, alpha=0.5):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -33,7 +33,8 @@ class LearningAgent(Agent):
         self.lastState = None
         self.lastAction = None
         self.run_mode = None
-        self.enforce_deadline = True
+        self.enforce_deadline = False
+
         self.trial_num = 5
         self.report_stats = [] # collect data for visualization and reporting
         self.t = 1 
@@ -118,20 +119,6 @@ class LearningAgent(Agent):
         # When not learning, choose a random action
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state
-        
-        if random.random() < self.epsilon:
-            action = random.choice(self.actions)
-        else:
-            q = [self.get_maxQ(state) for a in self.actions]
-            maxQ = max(q)
-            count = q.count(maxQ)
-            if count > 1:
-                best = [i for i in range(len(self.actions)) if q[i] == maxQ]
-                i = random.choice(best)
-            else:
-                i = q.index(maxQ)
-
-            action = self.actions[i]
  
         return action
 
@@ -193,12 +180,10 @@ def run():
     ##############
     # Create the simulation
     # Flags:
-    update_delay=0.01   # - continuous time (in seconds) between actions, default is 2.0 seconds
-    display=True      #- set to False to disable the GUI if PyGame is enabled
-    log_metrics=True  #- set to True to log trial and simulation results to /logs
-    optimized=True    #- set to True to change the default log file name
-    n_test=10
-    
+    #   update_delay - continuous time (in seconds) between actions, default is 2.0 seconds
+    #   display      - set to False to disable the GUI if PyGame is enabled
+    #   log_metrics  - set to True to log trial and simulation results to /logs
+    #   optimized    - set to True to change the default log file name
     sim = Simulator(env)
     
     ##############

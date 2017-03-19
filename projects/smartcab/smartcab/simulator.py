@@ -34,7 +34,7 @@ class Simulator(object):
         'gray'    : (155, 155, 155)
     }
 
-    def __init__(self, env, size=None, update_delay=2.0, display=True, log_metrics=False, optimized=False):
+    def __init__(self, env, size=None, update_delay=2.0, display=True, log_metrics=True, optimized=False):
         self.env = env
         self.size = size if size is not None else ((self.env.grid_size[0] + 1) * self.env.block_size, (self.env.grid_size[1] + 2) * self.env.block_size)
         self.width, self.height = self.size
@@ -86,7 +86,7 @@ class Simulator(object):
         # Setup metrics to report
         self.log_metrics = log_metrics
         self.optimized = optimized
-        
+        self.log_filename="sim_no-learning.csv"
         if self.log_metrics:
             a = self.env.primary_agent
 
