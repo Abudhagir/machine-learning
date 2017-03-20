@@ -195,7 +195,10 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    n_test=10
+    n_test=5
+    alpha=0.5
+    epsilon=0.5
+    tolerance=0.9
     sim.run()
 
 
