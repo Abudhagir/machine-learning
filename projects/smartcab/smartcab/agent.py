@@ -160,7 +160,7 @@ def run():
     #   verbose     - set to True to display additional output from the simulation
     #   num_dummies - discrete number of dummy agents in the environment, default is 100
     #   grid_size   - discrete number of intersections (columns, rows), default is (8, 6)
-    env = Environment(verbose=True, num_dummies=5,n_test=5)
+    env = Environment(verbose=True, num_dummies=5)
     
     ##############
     # Create the driving agent
@@ -190,13 +190,13 @@ def run():
     #sim.log_metrics=True
     sim.optimized=True
     sim.env.enforce_deadline=True
-    
+    sim.env.num_dummies=10
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    n_test=5
+    n_test=1
     alpha=0.5
     epsilon=0.5
     tolerance=0.9
